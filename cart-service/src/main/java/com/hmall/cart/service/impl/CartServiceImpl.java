@@ -1,22 +1,35 @@
 package com.hmall.cart.service.impl;
 
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hmall.cart.domain.dto.CartFormDTO;
+import com.hmall.cart.domain.dto.ItemDTO;
 import com.hmall.cart.domain.po.Cart;
 import com.hmall.cart.domain.vo.CartVO;
 import com.hmall.cart.mapper.CartMapper;
 import com.hmall.cart.service.ICartService;
+import com.hmall.common.exception.BadRequestException;
 import com.hmall.common.exception.BizIllegalException;
 import com.hmall.common.utils.BeanUtils;
 import com.hmall.common.utils.CollUtils;
 import com.hmall.common.utils.UserContext;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -31,6 +44,10 @@ import java.util.List;
 public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements ICartService {
 
     // private final IItemService itemService;
+
+    private final RestTemplate restTemplate;
+
+    private final DiscoveryClient discoveryClient;
 
     @Override
     public void addItem2Cart(CartFormDTO cartFormDTO) {
@@ -72,9 +89,35 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
 
     private void handleCartItems(List<CartVO> vos) {
         // 1.获取商品id TODO 处理商品信息
-        /*Set<Long> itemIds = vos.stream().map(CartVO::getItemId).collect(Collectors.toSet());
+        Set<Long> itemIds = vos.stream().map(CartVO::getItemId).collect(Collectors.toSet());
         // 2.查询商品
-        List<ItemDTO> items = itemService.queryItemByIds(itemIds);
+        // 第一步首先要根据服务的名称去获取到服务的实例
+        List<ServiceInstance> instances = discoveryClient.getInstances("item-service");
+        if(CollUtils.isEmpty(instances)) {
+            return;
+        }
+        // 第二步，手写负载均衡（无敌了
+        ServiceInstance serviceInstance = instances.get(RandomUtil.randomInt(instances.size()));
+        // 用基于 restTemplate 来实现，而不是基于 itemService 。
+        // 利用 RestTemplate 发起http请求，并得到http响应
+        // 字节码里泛型会被擦除，但如果new一个对象那么这个对象的返回值里的泛型还在
+        // CollUtils.join 作用是把itemIds集合里的数据，以逗号","作为分隔符，拼接成一个字符串
+        ResponseEntity<List<ItemDTO>> response = restTemplate.exchange(
+                serviceInstance.getUri() + "/items?ids={ids}",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<ItemDTO>>() {
+                },
+                Map.of("ids", CollUtils.join(itemIds, ","))
+        );
+        // 解析响应
+        // 通过响应状态码来判断发送和接收http请求是否成功。响应码200代表成功，所以是is2xxSuccessful()
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            // 查询失败，直接结束
+            return;
+        }
+        List<ItemDTO> items = response.getBody();
+
         if (CollUtils.isEmpty(items)) {
             throw new BadRequestException("购物车中商品不存在！");
         }
@@ -89,7 +132,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
             v.setNewPrice(item.getPrice());
             v.setStatus(item.getStatus());
             v.setStock(item.getStock());
-        }*/
+        }
     }
 
     @Override
