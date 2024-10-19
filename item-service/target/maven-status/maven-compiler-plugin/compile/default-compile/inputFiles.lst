@@ -5,6 +5,4 @@ F:\Project03\hmall\item-service\src\main\java\com\hmall\item\domain\po\Item.java
 F:\Project03\hmall\item-service\src\main\java\com\hmall\item\controller\SearchController.java
 F:\Project03\hmall\item-service\src\main\java\com\hmall\item\service\impl\ItemServiceImpl.java
 F:\Project03\hmall\item-service\src\main\java\com\hmall\item\service\IItemService.java
-F:\Project03\hmall\item-service\src\main\java\com\hmall\item\domain\dto\OrderDetailDTO.java
-F:\Project03\hmall\item-service\src\main\java\com\hmall\item\domain\dto\ItemDTO.java
 F:\Project03\hmall\item-service\src\main\java\com\hmall\item\controller\ItemController.java
