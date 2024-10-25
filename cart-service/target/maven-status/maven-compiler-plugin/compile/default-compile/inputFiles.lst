@@ -1,4 +1,5 @@
 F:\Project03\hmall\cart-service\src\main\java\com\hmall\cart\domain\po\Cart.java
+F:\Project03\hmall\cart-service\src\main\java\com\hmall\cart\config\CartProperties.java
 F:\Project03\hmall\cart-service\src\main\java\com\hmall\cart\domain\dto\CartFormDTO.java
 F:\Project03\hmall\cart-service\src\main\java\com\hmall\cart\mapper\CartMapper.java
 F:\Project03\hmall\cart-service\src\main\java\com\hmall\cart\controller\CartController.java

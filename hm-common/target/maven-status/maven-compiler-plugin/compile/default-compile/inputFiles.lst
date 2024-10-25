@@ -1,4 +1,5 @@
 F:\Project03\hmall\hm-common\src\main\java\com\hmall\common\advice\CommonExceptionAdvice.java
+F:\Project03\hmall\hm-common\src\main\java\com\hmall\common\interceptors\UserInfoInterceptor.java
 F:\Project03\hmall\hm-common\src\main\java\com\hmall\common\utils\CookieBuilder.java
 F:\Project03\hmall\hm-common\src\main\java\com\hmall\common\config\MyBatisConfig.java
 F:\Project03\hmall\hm-common\src\main\java\com\hmall\common\utils\Convert.java
@@ -9,6 +10,7 @@ F:\Project03\hmall\hm-common\src\main\java\com\hmall\common\exception\CommonExce
 F:\Project03\hmall\hm-common\src\main\java\com\hmall\common\exception\BadRequestException.java
 F:\Project03\hmall\hm-common\src\main\java\com\hmall\common\utils\UserContext.java
 F:\Project03\hmall\hm-common\src\main\java\com\hmall\common\config\JsonConfig.java
+F:\Project03\hmall\hm-common\src\main\java\com\hmall\common\config\MvcConfig.java
 F:\Project03\hmall\hm-common\src\main\java\com\hmall\common\exception\ForbiddenException.java
 F:\Project03\hmall\hm-common\src\main\java\com\hmall\common\utils\BeanUtils.java
 F:\Project03\hmall\hm-common\src\main\java\com\hmall\common\utils\CollUtils.java

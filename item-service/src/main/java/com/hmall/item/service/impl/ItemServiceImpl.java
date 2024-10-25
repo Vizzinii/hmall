@@ -9,6 +9,7 @@ import com.hmall.common.utils.BeanUtils;
 import com.hmall.item.domain.po.Item;
 import com.hmall.item.mapper.ItemMapper;
 import com.hmall.item.service.IItemService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -24,14 +25,22 @@ import java.util.List;
 @Service
 public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements IItemService {
 
+    @Autowired
+    private ItemMapper itemMapper;
+
     @Override
     public void deductStock(List<OrderDetailDTO> items) {
         String sqlStatement = "com.hmall.item.ItemMapper.updateStock";
         boolean r = false;
         try {
-            r = executeBatch(items, (sqlSession, entity) -> sqlSession.update(sqlStatement, entity));
+//            r = executeBatch(items, (sqlSession, entity) -> sqlSession.update(sqlStatement, entity));
+            for (OrderDetailDTO item : items) {
+                itemMapper.updateStock(item);
+            }
+            r = true;
         } catch (Exception e) {
-            throw new BizIllegalException("更新库存异常，可能是库存不足!", e);
+            //throw new BizIllegalException("更新库存异常，可能是库存不足!", e);
+            log.error("更新库存异常，可能是库存不足!",e);
         }
         if (!r) {
             throw new BizIllegalException("库存不足！");
