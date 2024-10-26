@@ -1,5 +1,12 @@
 server:
   port: 8082
+
+  tomcat:
+    threads:
+      max: 25 #允许的最大线程量
+    accept-count: 25 #允许排队等线程的数量
+    max-connections: 100
+
 #spring:
 #  application:
 #    name: cart-service
@@ -45,9 +52,20 @@ server:
 feign:
   okhttp:
     enabled: true
+  sentinel:
+    enabled: true # 让 FeignClient 这个feign调用也成为簇点资源，只有簇点才能进行流控和fallback
 hm:
   db:
     database: hm-cart
   swagger:
     title: 购物车服务接口文档
     package: com.hmall.cart.controller
+spring:
+  cloud:
+    sentinel:
+      transport:
+        dashboard: localhost:8090
+      http-method-specify: true
+      #开启请求方式前缀
+      # 默认情况下Sentinel会把路径作为簇点资源的名称，默认下无法区分路径相同但请求方式不同的的接口，所以查询、删除、修改等都会被识别为同一个簇点资源
+      # 通过把 http-method-specify 设置为 true ，可以把“请求方式+请求路径”作为簇点资源名

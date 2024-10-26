@@ -87,7 +87,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
     }
 
     private void handleCartItems(List<CartVO> vos) {
-        // 1.获取商品id TODO 处理商品信息
+        // 1.获取商品id
         Set<Long> itemIds = vos.stream().map(CartVO::getItemId).collect(Collectors.toSet());
 //        // 2.查询商品
 //        // 第一步首先要根据服务的名称去获取到服务的实例
@@ -122,9 +122,9 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
 
 
 
-        if (CollUtils.isEmpty(items)) {
-            throw new BadRequestException("购物车中商品不存在！");
-        }
+//        if (CollUtils.isEmpty(items)) {
+//            throw new BadRequestException("购物车中商品不存在！");
+//        }
         // 3.转为 id 到 item的map
         Map<Long, ItemDTO> itemMap = items.stream().collect(Collectors.toMap(ItemDTO::getId, Function.identity()));
         // 4.写入vo

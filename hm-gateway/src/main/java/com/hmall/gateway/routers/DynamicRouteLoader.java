@@ -55,7 +55,6 @@ public class DynamicRouteLoader {
         updateConfigInfo(configInfo);
     }
     public void updateConfigInfo(String configInfo) {
-        // TODO
         log.info("监听到并修改路由配置信息 : {}", configInfo);
         // 1.解析配置信息，转为RouteDefinition
         List<RouteDefinition> routeDefinitions = JSONUtil.toList(configInfo, RouteDefinition.class);
