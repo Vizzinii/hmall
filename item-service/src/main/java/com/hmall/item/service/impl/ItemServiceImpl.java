@@ -11,6 +11,7 @@ import com.hmall.item.mapper.ItemMapper;
 import com.hmall.item.service.IItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
  * 商品表 服务实现类
  * </p>
  *
- * @author 虎哥
+ * @author Vizzini
  */
 @Service
 public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements IItemService {
@@ -29,6 +30,7 @@ public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements II
     private ItemMapper itemMapper;
 
     @Override
+    @Transactional
     public void deductStock(List<OrderDetailDTO> items) {
         String sqlStatement = "com.hmall.item.ItemMapper.updateStock";
         boolean r = false;

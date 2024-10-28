@@ -1,4 +1,6 @@
 com\hmall\api\config\DefaultFeignConfig.class
+com\hmall\api\client\fallback\ItemClientFallbackFactory$1.class
+com\hmall\api\client\fallback\ItemClientFallbackFactory.class
 com\hmall\api\dto\ItemDTO.class
 com\hmall\api\dto\OrderDetailDTO.class
 com\hmall\api\client\ItemClient.class

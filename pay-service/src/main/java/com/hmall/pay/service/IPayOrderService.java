@@ -11,7 +11,7 @@ import com.hmall.pay.domain.po.PayOrder;
  * 支付订单 服务类
  * </p>
  *
- * @author 虎哥
+ * @author Vizzini
  * @since 2023-05-16
  */
 public interface IPayOrderService extends IService<PayOrder> {
